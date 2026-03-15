@@ -78,6 +78,7 @@
     "arg_update": "當相依項目已存在時，是否進行更新操作",
     "arg_ci": "CI 模式：不產生本地版本檔案",
     "arg_clean_cache": "清理下載快取目錄",
+    "arg_maafw_dir": "本機 MaaFramework 安裝目錄（可傳 install 根目錄或 bin 目錄，也可用環境變數 MAAEND_MAAFW_DIR）",
     "header_workspace_init": "========== MaaEnd Workspace 初始化 ==========",
     "fatal_submodule_failed": "[FATAL] 子模組更新失敗，離開",
     "header_bootstrap_maadeps": "\n========== 下載 MaaDeps 預編譯依賴 ==========",
@@ -93,5 +94,8 @@
     "header_setup_complete": "\n========== 設定完成 ==========",
     "inf_workspace_ready": "[INF] 工作區已經初始化/更新完畢，可執行 {mxu_path} 來驗證安裝結果",
     "inf_install_dir_hint": "[INF] 後續使用相關工具編輯、除錯等，都基於 {install_dir} 資料夾",
-    "inf_read_dev_doc": "[INF] 請閱讀開發手冊 ({doc_path}) 中的「開發技巧」和「程式碼規範」後，再進行相關開發工作"
+    "inf_read_dev_doc": "[INF] 請閱讀開發手冊 ({doc_path}) 中的「開發技巧」和「程式碼規範」後，再進行相關開發工作",
+    "err_invalid_maafw_dir": "[ERR] 無效的 MaaFramework 目錄: {path}。請傳入包含 bin/include/share 的安裝根目錄，或其 bin 子目錄",
+    "inf_use_local_maafw": "[INF] 使用本機 MaaFramework: {path}",
+    "err_create_local_deps_link_failed": "[ERR] 建立本機 MaaFramework SDK 連結失敗"
 }

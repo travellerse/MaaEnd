@@ -14,6 +14,14 @@ python tools/setup_workspace.py
 
 即可完整设置开发所需的环境。
 
+如果你希望直接使用本地自行编译的 MaaFramework，可额外指定其安装目录：
+
+```bash
+python tools/setup_workspace.py --maafw-dir /path/to/MaaFramework/install
+```
+
+`--maafw-dir` 既支持传入 MaaFramework 的 `install` 根目录，也支持直接传入其中的 `bin` 目录；也可以通过环境变量 `MAAEND_MAAFW_DIR` 持久配置。
+
 > [!NOTE]
 >
 > 如果出现问题，你也可以参照下方的**手动配置指南**来分步骤操作。
@@ -38,6 +46,12 @@ python tools/setup_workspace.py
 
 2. 下载 [MaaFramework](https://github.com/MaaXYZ/MaaFramework/releases) 并解压内容到 `deps` 文件夹。
 
+    如果你已经在本地编译了 MaaFramework，也可以直接复用其 `install` 目录，无需手动复制 `deps`：
+
+    ```bash
+    python tools/build_and_install.py --maafw-dir /path/to/MaaFramework/install
+    ```
+
 3. 下载 MaaDeps pre-built。
 
     ```bash
@@ -56,7 +70,15 @@ python tools/setup_workspace.py
     > python tools/build_and_install.py --cpp-algo
     > ```
 
+    > 如需直接接入本地自行编译的 MaaFramework，可加上 `--maafw-dir`：
+    >
+    > ```bash
+    > python tools/build_and_install.py --maafw-dir /path/to/MaaFramework/install
+    > ```
+
 5. 将步骤 2 中解压的 `deps/bin` 内容复制到 `install/maafw/` 。
+
+    若使用了 `--maafw-dir`，该步骤会由脚本自动处理。
 
 6. 下载 [MXU](https://github.com/MistEO/MXU/releases) 并解压到 `install/` 。
 

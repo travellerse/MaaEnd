@@ -56,5 +56,9 @@
     "arg_arch": "Target architecture (x86_64/aarch64)",
     "arg_version": "Version number (written to Go Agent)",
     "arg_cpp_algo": "Also build C++ Algo Agent (not built by default)",
-    "step_skip_cpp": "[3/4] Skipping C++ Algo Agent (--cpp-algo not specified)"
+    "step_skip_cpp": "[3/4] Skipping C++ Algo Agent (--cpp-algo not specified)",
+    "arg_maafw_dir": "Local MaaFramework install directory (accepts the install root or bin directory, or use MAAEND_MAAFW_DIR)",
+    "invalid_maafw_dir": "Invalid MaaFramework directory: {path}. Pass the install root containing bin/include/share, or its bin subdirectory",
+    "local_maafw_source": "Local MaaFramework",
+    "prepare_local_maafw_failed": "Failed to sync local MaaFramework"
 }

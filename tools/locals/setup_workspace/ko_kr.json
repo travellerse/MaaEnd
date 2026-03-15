@@ -78,6 +78,7 @@
     "arg_update": "의존성이 이미 존재할 때 업데이트 작업 수행 여부",
     "arg_ci": "CI 모드: 로컬 버전 파일을 생성하지 않습니다",
     "arg_clean_cache": "다운로드 캐시 디렉토리 정리",
+    "arg_maafw_dir": "로컬 MaaFramework 설치 디렉터리 (install 루트 또는 bin 디렉터리, 또는 MAAEND_MAAFW_DIR 사용)",
     "header_workspace_init": "========== MaaEnd Workspace 초기화 ==========",
     "fatal_submodule_failed": "[FATAL] 서브모듈 업데이트 실패, 종료",
     "header_bootstrap_maadeps": "\n========== MaaDeps 사전 빌드 종속성 다운로드 ==========",
@@ -93,5 +94,8 @@
     "header_setup_complete": "\n========== 설정 완료 ==========",
     "inf_workspace_ready": "[INF] 작업 공간이 초기화/업데이트되었습니다. {mxu_path}를 실행하여 설치 결과를 확인할 수 있습니다",
     "inf_install_dir_hint": "[INF] 향후 편집, 디버깅 등 모든 도구 사용은 {install_dir} 폴더를 기반으로 합니다",
-    "inf_read_dev_doc": "[INF] 개발 작업을 진행하기 전에 개발 매뉴얼 ({doc_path})의 '개발 팁' 및 '코드 규칙' 섹션을 읽어주세요"
+    "inf_read_dev_doc": "[INF] 개발 작업을 진행하기 전에 개발 매뉴얼 ({doc_path})의 '개발 팁' 및 '코드 규칙' 섹션을 읽어주세요",
+    "err_invalid_maafw_dir": "[ERR] 잘못된 MaaFramework 디렉터리입니다: {path}. bin/include/share가 있는 설치 루트나 그 bin 하위 디렉터리를 지정하세요",
+    "inf_use_local_maafw": "[INF] 로컬 MaaFramework 사용: {path}",
+    "err_create_local_deps_link_failed": "[ERR] 로컬 MaaFramework SDK 링크 생성 실패"
 }

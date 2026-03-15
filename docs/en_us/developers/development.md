@@ -14,6 +14,14 @@ python tools/setup_workspace.py
 
 This will fully set up the environment required for development.
 
+If you want to use your own locally built MaaFramework directly, pass its install directory explicitly:
+
+```bash
+python tools/setup_workspace.py --maafw-dir /path/to/MaaFramework/install
+```
+
+`--maafw-dir` accepts either the MaaFramework `install` root or its `bin` directory. You can also persist it with the `MAAEND_MAAFW_DIR` environment variable.
+
 > [!NOTE]
 >
 > If problems occur, you can also follow the Manual Configuration Guide below to operate step by step.
@@ -38,6 +46,12 @@ This will fully set up the environment required for development.
 
 2. Download [MaaFramework](https://github.com/MaaXYZ/MaaFramework/releases) and extract the contents to the `deps` folder.
 
+    If you already built MaaFramework locally, you can reuse its `install` directory directly instead of copying files into `deps` manually:
+
+    ```bash
+    python tools/build_and_install.py --maafw-dir /path/to/MaaFramework/install
+    ```
+
 3. Download MaaDeps pre-built.
 
     ```bash
@@ -56,7 +70,15 @@ This will fully set up the environment required for development.
     > python tools/build_and_install.py --cpp-algo
     > ```
 
+    > To wire in a locally built MaaFramework, add `--maafw-dir` as well:
+    >
+    > ```bash
+    > python tools/build_and_install.py --maafw-dir /path/to/MaaFramework/install
+    > ```
+
 5. Copy the contents of `deps/bin` (extracted in Step 2) to `install/maafw/` .
+
+    If you used `--maafw-dir`, this step is handled by the script automatically.
 
 6. Download [MXU](https://github.com/MistEO/MXU/releases) and extract it to `install/` .
 

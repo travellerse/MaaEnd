@@ -56,5 +56,9 @@
     "arg_arch": "ターゲットアーキテクチャ (x86_64/aarch64)",
     "arg_version": "バージョン番号（Go Agent に書き込まれます）",
     "arg_cpp_algo": "C++ Algo Agent も同時にビルドする（デフォルトではビルドしない）",
-    "step_skip_cpp": "[3/4] C++ Algo Agent をスキップ（--cpp-algo 未指定）"
+    "step_skip_cpp": "[3/4] C++ Algo Agent をスキップ（--cpp-algo 未指定）",
+    "arg_maafw_dir": "ローカル MaaFramework のインストール先（install ルートまたは bin ディレクトリ。環境変数 MAAEND_MAAFW_DIR でも可）",
+    "invalid_maafw_dir": "無効な MaaFramework ディレクトリです: {path}。bin/include/share を含むインストールルート、またはその bin サブディレクトリを指定してください",
+    "local_maafw_source": "ローカル MaaFramework",
+    "prepare_local_maafw_failed": "ローカル MaaFramework の同期に失敗しました"
 }

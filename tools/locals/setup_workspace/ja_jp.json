@@ -78,6 +78,7 @@
     "arg_update": "依存関係が既に存在する場合に更新操作を実行するかどうか",
     "arg_ci": "CI モード：ローカルバージョンファイルを生成しません",
     "arg_clean_cache": "ダウンロードキャッシュディレクトリを削除する",
+    "arg_maafw_dir": "ローカル MaaFramework のインストール先（install ルートまたは bin ディレクトリ。環境変数 MAAEND_MAAFW_DIR でも可）",
     "header_workspace_init": "========== MaaEnd Workspace 初期化 ==========",
     "fatal_submodule_failed": "[FATAL] サブモジュールの更新に失敗しました。終了します",
     "header_bootstrap_maadeps": "\n========== MaaDeps プリビルド依存関係をダウンロード中 ==========",
@@ -93,5 +94,8 @@
     "header_setup_complete": "\n========== セットアップ完了 ==========",
     "inf_workspace_ready": "[INF] ワークスペースが初期化/更新されました。{mxu_path} を実行してインストール結果を確認できます",
     "inf_install_dir_hint": "[INF] 今後の編集、デバッグなどのツールの使用は、{install_dir} フォルダに基づいています",
-    "inf_read_dev_doc": "[INF] 開発作業を進める前に、開発マニュアル ({doc_path}) の「開発のヒント」と「コード規約」のセクションをお読みください"
+    "inf_read_dev_doc": "[INF] 開発作業を進める前に、開発マニュアル ({doc_path}) の「開発のヒント」と「コード規約」のセクションをお読みください",
+    "err_invalid_maafw_dir": "[ERR] 無効な MaaFramework ディレクトリです: {path}。bin/include/share を含むインストールルート、またはその bin サブディレクトリを指定してください",
+    "inf_use_local_maafw": "[INF] ローカル MaaFramework を使用します: {path}",
+    "err_create_local_deps_link_failed": "[ERR] ローカル MaaFramework SDK へのリンク作成に失敗しました"
 }

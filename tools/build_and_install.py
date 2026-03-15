@@ -108,6 +108,61 @@ def copy_file(src: Path, dst: Path) -> bool:
     return True
 
 
+def resolve_maafw_sdk_root(maafw_dir: Path) -> tuple[Path, Path]:
+    """解析 MaaFramework SDK 根目录，兼容传入 install 根目录或 bin 目录。"""
+    candidate = maafw_dir.expanduser().resolve()
+
+    if (candidate / "bin").is_dir() and (candidate / "include").is_dir() and (
+        candidate / "share"
+    ).is_dir():
+        return candidate, candidate / "bin"
+
+    if (
+        candidate.name == "bin"
+        and candidate.is_dir()
+        and (candidate.parent / "include").is_dir()
+        and (candidate.parent / "share").is_dir()
+    ):
+        return candidate.parent, candidate
+
+    raise ValueError(t("invalid_maafw_dir", path=candidate))
+
+
+def prepare_local_maafw(
+    root_dir: Path,
+    install_dir: Path,
+    maafw_dir: Path,
+    use_copy: bool,
+) -> bool:
+    """将本地 MaaFramework SDK 同步到当前工作区。"""
+    try:
+        sdk_root, bin_dir = resolve_maafw_sdk_root(maafw_dir)
+    except ValueError as exc:
+        print(f"  {Console.err(t('error'))} {exc}")
+        return False
+
+    deps_dir = root_dir / "deps"
+    maafw_install_dir = install_dir / "maafw"
+
+    print(f"  {Console.info(t('local_maafw_source'))}: {sdk_root}")
+
+    sync_sdk = copy_directory if use_copy else create_directory_link
+    sync_bin = copy_directory if use_copy else create_directory_link
+
+    if not sync_sdk(sdk_root, deps_dir):
+        print(f"  {Console.err(t('error'))} {t('prepare_local_maafw_failed')}")
+        return False
+    print(f"  {Console.ok('->')} {deps_dir}")
+
+    # 运行时固定从 install/maafw 加载库，保持现有目录约定不变。
+    if not sync_bin(bin_dir if use_copy else deps_dir / "bin", maafw_install_dir):
+        print(f"  {Console.err(t('error'))} {t('prepare_local_maafw_failed')}")
+        return False
+    print(f"  {Console.ok('->')} {maafw_install_dir}")
+
+    return True
+
+
 def check_go_environment() -> bool:
     """检查 Go 环境是否可用"""
     try:
@@ -465,6 +520,11 @@ def main():
     parser.add_argument("--arch", dest="target_arch", help=t("arg_arch"))
     parser.add_argument("--version", help=t("arg_version"))
     parser.add_argument("--cpp-algo", action="store_true", help=t("arg_cpp_algo"))
+    parser.add_argument(
+        "--maafw-dir",
+        help=t("arg_maafw_dir"),
+        default=os.environ.get("MAAEND_MAAFW_DIR"),
+    )
     args = parser.parse_args()
 
     use_copy = args.ci
@@ -484,6 +544,7 @@ def main():
     # 用于链接或复制的函数
     link_or_copy_dir = copy_directory if use_copy else create_directory_link
     link_or_copy_file = copy_file if use_copy else create_file_link
+    local_maafw_prepared = False
 
     # 1. 链接/复制 assets 目录内容
     print(Console.step(t("step_process_assets")))
@@ -506,6 +567,12 @@ def main():
 
     # 3. 构建 C++ Algo Agent（仅在指定 --cpp-algo 时）
     if args.cpp_algo:
+        if args.maafw_dir and not prepare_local_maafw(
+            root_dir, install_dir, Path(args.maafw_dir), use_copy
+        ):
+            print(f"  {Console.err(t('error'))} {t('prepare_local_maafw_failed')}")
+            sys.exit(1)
+        local_maafw_prepared = bool(args.maafw_dir)
         print(Console.step(t("step_build_cpp")))
         if not build_cpp_algo(root_dir, install_dir, args.target_os, args.target_arch, use_copy):
             print(f"  {t('error')} {t('build_cpp_failed')}")
@@ -523,15 +590,22 @@ def main():
                 print(f"  {Console.ok('->')} {dst}")
 
     maafw_dir = install_dir / "maafw"
-    maafw_dir.mkdir(parents=True, exist_ok=True)
-    print(f"  {Console.ok('->')} {maafw_dir}")
+    if args.maafw_dir:
+        if not local_maafw_prepared and not prepare_local_maafw(
+            root_dir, install_dir, Path(args.maafw_dir), use_copy
+        ):
+            print(f"  {Console.err(t('error'))} {t('prepare_local_maafw_failed')}")
+            sys.exit(1)
+    else:
+        maafw_dir.mkdir(parents=True, exist_ok=True)
+        print(f"  {Console.ok('->')} {maafw_dir}")
 
     print()
     print("=" * 50)
     print(Console.ok(t("install_complete")))
 
     if not use_copy:
-        if not any(maafw_dir.iterdir()):
+        if not args.maafw_dir and not any(maafw_dir.iterdir()):
             print()
             print(Console.warn(t("maafw_download_hint")))
             print(f"  {t('maafw_download_step')}")

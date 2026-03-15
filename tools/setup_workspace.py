@@ -139,6 +139,26 @@ def run_command(
         return False
 
 
+def resolve_maafw_sdk_root(maafw_dir: Path) -> tuple[Path, Path]:
+    """解析 MaaFramework SDK 根目录，兼容传入 install 根目录或 bin 目录。"""
+    candidate = maafw_dir.expanduser().resolve()
+
+    if (candidate / "bin").is_dir() and (candidate / "include").is_dir() and (
+        candidate / "share"
+    ).is_dir():
+        return candidate, candidate / "bin"
+
+    if (
+        candidate.name == "bin"
+        and candidate.is_dir()
+        and (candidate.parent / "include").is_dir()
+        and (candidate.parent / "share").is_dir()
+    ):
+        return candidate.parent, candidate
+
+    raise ValueError(t("err_invalid_maafw_dir", path=candidate))
+
+
 def update_submodules(skip_if_exist: bool = True) -> bool:
     print(Console.hdr(t("inf_check_submodules")))
 
@@ -174,10 +194,13 @@ def bootstrap_maadeps(skip_if_exist: bool = True) -> bool:
     return run_command([sys.executable, str(script_path)])
 
 
-def run_build_script() -> bool:
+def run_build_script(local_maafw_dir: str | None = None) -> bool:
     print(Console.hdr(t("inf_run_build_script")))
     script_path = PROJECT_BASE / "tools" / "build_and_install.py"
-    return run_command([sys.executable, str(script_path)])
+    cmd = [sys.executable, str(script_path)]
+    if local_maafw_dir:
+        cmd.extend(["--maafw-dir", local_maafw_dir])
+    return run_command(cmd)
 
 
 def get_latest_release_url(
@@ -554,12 +577,33 @@ def install_maafw(
     skip_if_exist: bool = True,
     update_mode: bool = False,
     local_version: str | None = None,
+    local_maafw_dir: str | None = None,
 ) -> tuple[bool, str | None, bool]:
     """安装 MaaFramework，若遇占用则提示用户手动处理"""
     real_install_root = install_root.resolve()
     maafw_dest = real_install_root / "maafw"
     maafw_deps = PROJECT_BASE / "deps"
     maafw_installed = maafw_deps.exists() and any(maafw_deps.iterdir())
+
+    if local_maafw_dir:
+        try:
+            sdk_root, _ = resolve_maafw_sdk_root(Path(local_maafw_dir))
+        except ValueError as exc:
+            print(Console.err(str(exc)))
+            return False, local_version, False
+
+        print(Console.info(t("inf_use_local_maafw", path=sdk_root)))
+
+        if not create_directory_link(sdk_root, maafw_deps):
+            print(Console.err(t("err_create_local_deps_link_failed")))
+            return False, local_version, False
+
+        if not create_directory_link(maafw_deps / "bin", maafw_dest):
+            print(Console.err(t("err_create_link_failed")))
+            return False, local_version, False
+
+        print(Console.ok(t("inf_maafw_install_complete")))
+        return True, f"local:{sdk_root}", True
 
     if skip_if_exist and maafw_installed:
         print(Console.ok(t("inf_maafw_installed_skip")))
@@ -965,6 +1009,11 @@ def main() -> None:
     parser.add_argument("--update", action="store_true", help=t("arg_update"))
     parser.add_argument("--ci", action="store_true", help=t("arg_ci"))
     parser.add_argument("--clean-cache", action="store_true", help=t("arg_clean_cache"))
+    parser.add_argument(
+        "--maafw-dir",
+        help=t("arg_maafw_dir"),
+        default=os.environ.get("MAAEND_MAAFW_DIR"),
+    )
     args = parser.parse_args()
 
     if args.clean_cache:
@@ -984,7 +1033,7 @@ def main() -> None:
         print(Console.err(t("fatal_maadeps_failed")))
         sys.exit(1)
     print(Console.hdr(t("header_build_go")))
-    if not run_build_script():
+    if not run_build_script(args.maafw_dir):
         print(Console.err(t("fatal_build_failed")))
         sys.exit(1)
     print(Console.hdr(t("header_download_deps")))
@@ -995,6 +1044,7 @@ def main() -> None:
         skip_if_exist=not args.update,
         update_mode=args.update,
         local_version=local_versions.get("maafw"),
+        local_maafw_dir=args.maafw_dir,
     )
     if not maafw_ok:
         print(Console.err(t("fatal_maafw_failed")))

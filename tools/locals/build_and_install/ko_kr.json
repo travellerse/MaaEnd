@@ -56,5 +56,9 @@
     "arg_arch": "대상 아키텍처 (x86_64/aarch64)",
     "arg_version": "버전 번호 (Go Agent에 기록됨)",
     "arg_cpp_algo": "C++ Algo Agent도 함께 빌드 (기본적으로 빌드하지 않음)",
-    "step_skip_cpp": "[3/4] C++ Algo Agent 건너뜀 (--cpp-algo 미지정)"
+    "step_skip_cpp": "[3/4] C++ Algo Agent 건너뜀 (--cpp-algo 미지정)",
+    "arg_maafw_dir": "로컬 MaaFramework 설치 디렉터리 (install 루트 또는 bin 디렉터리, 또는 MAAEND_MAAFW_DIR 사용)",
+    "invalid_maafw_dir": "잘못된 MaaFramework 디렉터리입니다: {path}. bin/include/share가 있는 설치 루트나 그 bin 하위 디렉터리를 지정하세요",
+    "local_maafw_source": "로컬 MaaFramework",
+    "prepare_local_maafw_failed": "로컬 MaaFramework 동기화 실패"
 }

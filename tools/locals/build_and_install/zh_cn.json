@@ -56,5 +56,9 @@
     "arg_arch": "目标架构 (x86_64/aarch64)",
     "arg_version": "版本号（写入 Go Agent）",
     "arg_cpp_algo": "同时编译 C++ Algo Agent（默认不编译）",
-    "step_skip_cpp": "[3/4] 跳过 C++ Algo Agent（未指定 --cpp-algo）"
+    "step_skip_cpp": "[3/4] 跳过 C++ Algo Agent（未指定 --cpp-algo）",
+    "arg_maafw_dir": "本地 MaaFramework 安装目录（可传 install 根目录或 bin 目录，也可用环境变量 MAAEND_MAAFW_DIR）",
+    "invalid_maafw_dir": "无效的 MaaFramework 目录: {path}。请传入包含 bin/include/share 的安装根目录，或其 bin 子目录",
+    "local_maafw_source": "本地 MaaFramework",
+    "prepare_local_maafw_failed": "同步本地 MaaFramework 失败"
 }
