@@ -1,0 +1,26 @@
+{
+    "AutoStockpileGetQuotaAddition": {
+        "roi": [
+            360,
+            160,
+            200,
+            60
+        ]
+    },
+    "AutoStockpileGetQuota": {
+        "roi": [
+            70,
+            160,
+            270,
+            60
+        ]
+    },
+    "AutoStockpileFindMarketMark": {
+        "roi": [
+            80,
+            175,
+            30,
+            500
+        ]
+    }
+}

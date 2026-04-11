@@ -1,0 +1,34 @@
+{
+    "AutoStockpileElasticGoods": {
+        "roi": [
+            440,
+            75,
+            60,
+            70
+        ]
+    },
+    "AutoStockpileElasticGoodsSelected": {
+        "roi": [
+            440,
+            75,
+            60,
+            70
+        ]
+    },
+    "AutoStockpileFindMarketSidebar": {
+        "roi": [
+            22,
+            160,
+            40,
+            500
+        ]
+    },
+    "AutoStockpileEnaureElasticClicked": {
+        "roi": [
+            22,
+            160,
+            40,
+            500
+        ]
+    }
+}

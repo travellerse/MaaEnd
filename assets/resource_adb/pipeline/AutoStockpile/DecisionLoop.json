@@ -1,0 +1,18 @@
+{
+    "AutoStockpileEnsureDetailFrameStable": {
+        "roi": [
+            46,
+            58,
+            78,
+            72
+        ]
+    },
+    "AutoStockpileEnsureCashAnchor": {
+        "roi": [
+            1030,
+            205,
+            150,
+            50
+        ]
+    }
+}
