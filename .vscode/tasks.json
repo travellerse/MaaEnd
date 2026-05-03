@@ -29,6 +29,20 @@
                 "instanceLimit": 1
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Run",
+            "type": "shell",
+            "command": "install/mxu",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "problemMatcher": [],
+            "dependsOn": "Build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

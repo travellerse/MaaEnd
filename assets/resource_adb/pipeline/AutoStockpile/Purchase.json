@@ -1,0 +1,36 @@
+{
+    "AutoStockpileSwipeSpecificQuantity": {
+        "action": {
+            "param": {
+                "custom_action_param": {
+                    "DecreaseButton": "AutoStockpile/DecreaseButton.png",
+                    "Direction": "right",
+                    "IncreaseButton": "AutoStockpile/IncreaseButton.png",
+                    "GreenMask": true,
+                    "Quantity": {
+                        "Box": [
+                            300,
+                            516,
+                            100,
+                            45
+                        ],
+                        "Target": 1
+                    },
+                    "QuantityFilter": {
+                        "lower": [
+                            20,
+                            150,
+                            150
+                        ],
+                        "upper": [
+                            35,
+                            255,
+                            255
+                        ],
+                        "method": 40
+                    }
+                }
+            }
+        }
+    }
+}
